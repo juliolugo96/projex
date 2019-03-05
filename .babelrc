@@ -1,5 +1,5 @@
 {
-    "plugins": [
-    ["import", { "libraryName": "antd-mobile", "style": "css" }] 
+  "plugins": [
+    ["import", { libraryName: "@ant-design/react-native" }]
   ]
 }
