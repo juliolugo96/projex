@@ -4,7 +4,7 @@ import Login from '../components/Login';
 export default class LoginScreen extends React.Component{
 
   render(){
-    return <Login />;
+    return <Login {...this.props} />;
   }
   
 }
