@@ -8,12 +8,17 @@ export default class Login extends React.Component {
     constructor(props){
         super(props);
 
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onLogin = this.onLogin.bind(this);
         this.onRegisterNowPressed = this.onRegisterNowPressed.bind(this);
     }
 
-    onSubmit(data){
-        alert("Hola Mundo")
+    onLogin(data){
+        
+      const {navigation} = this.props;
+      
+      navigation.navigate("Projects")
+
+
     }
 
     onRegisterNowPressed(){
@@ -27,8 +32,8 @@ export default class Login extends React.Component {
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image style={styles.welcomeImage}
- source={require('../../assets/images/drawing.png')} />
-
+                      source={require('../../assets/images/drawing.png')} 
+                />
             </View>
 
         <Container style={{flex: 4}}>
@@ -44,7 +49,7 @@ export default class Login extends React.Component {
                   </Item>
               </Form>
 
-              <Button style={styles.button} onPress={this.onSubmit}>
+              <Button style={styles.button} onPress={this.onLogin}>
                 <Text style={styles.buttonText}>{Intl.login_button}</Text>
               </Button>
 
