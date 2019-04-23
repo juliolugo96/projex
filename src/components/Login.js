@@ -22,7 +22,10 @@ export default class Login extends React.Component {
     }
 
     onRegisterNowPressed(){
-        alert("Registrando")
+         
+      const {navigation} = this.props;
+       
+      navigation.navigate("Register")
     }
 
   render() {
