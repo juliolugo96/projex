@@ -7,21 +7,19 @@ export default class TasksBoards extends React.Component{
        return ( 
        <Container>
         <Tabs tabBarPosition="bottom" renderTabBar={()=> <ScrollableTab />}>
-          <Tab heading="Tab1" >
-            <Card>
+          <Tab heading="To do" >
+            <Card onPress={()=>this.props.navigation.navigate("EditTask")}>
                 <CardItem>
                 <Body>
-                    <Text>
-                    {"Hola"}
-                    </Text>
+                    <Text> {"Hola"} </Text>
                 </Body>
                 </CardItem>
             </Card>
           </Tab>
-          <Tab heading="Tab2">
+          <Tab heading="Doing">
             <Text>{"How"}</Text>
           </Tab>
-          <Tab heading="Tab3">
+          <Tab heading="Done">
           <Text>{"Are you?"}</Text>
           </Tab>
         </Tabs>

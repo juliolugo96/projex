@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Text, Content, Form, Item, Input, Label, View, Button,  } from 'native-base';
+import { Container, Header, Text, Content, Form, Item, Input, Label, View, Button, Icon  } from 'native-base';
 import {StyleSheet, Image, Dimensions } from 'react-native';
 import Intl from '../../intl/intl';
 
@@ -42,13 +42,14 @@ export default class Login extends React.Component {
         <Container style={{flex: 4}}>
             <Content style={styles.container}>
               <Form style={styles.form}>
-                  <Item floatingLabel>
-                  <Label>{Intl.login_username}</Label>
-                  <Input />
+                  <Item rounded style={{backgroundColor:'white'}}>
+                    <Icon active name='ios-person' />
+                    <Input  placeholder={Intl.login_username} />
                   </Item>
-                  <Item floatingLabel>
-                  <Label>{Intl.login_password}</Label>
-                  <Input secureTextEntry={true} />
+                  
+                  <Item rounded style={{marginTop: 10, backgroundColor:'white'}}>
+                    <Icon active name='key' />
+                    <Input secureTextEntry={true} placeholder={Intl.login_password}/>
                   </Item>
               </Form>
 
@@ -56,7 +57,7 @@ export default class Login extends React.Component {
                 <Text style={styles.buttonText}>{Intl.login_button}</Text>
               </Button>
 
-              <Text onPress={this.onRegisterNowPressed} style={styles.registerNowText}>{'D'}</Text>
+              <Text onPress={this.onRegisterNowPressed} style={styles.registerNowText}>{'Register Now!'}</Text>
               <Text style={styles.bottomText}>{"Ingenuity Creations ® 2019"}</Text>
             </Content>
         </Container>
@@ -85,7 +86,9 @@ welcomeImage: {
 }, 
   form: {
     flex: 2,
-    width: '90%'
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },   
   welcome: {
     fontSize: 20,
