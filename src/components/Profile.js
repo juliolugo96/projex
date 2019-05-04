@@ -3,39 +3,11 @@ import { Container, Header, Text, Content, Form, Item, Input, Label, View, Butto
 import {StyleSheet, Image, Dimensions } from 'react-native';
 import Intl from '../../intl/intl';
 
-export default class Login extends React.Component {
+export default class Profile extends React.Component {
 
     constructor(props){
         super(props);
 
-        this.onLogin = this.onLogin.bind(this);
-        this.onSignUpNowPressed = this.onSignUpNowPressed.bind(this);
-    }
-
-    componentWillMount(){
-      // For development purposes only
-
-      const {navigation} = this.props;
-      
-      navigation.navigate("Projects")
-
-      //////////////////////////
-    }
-
-    onLogin(data){
-        
-      const {navigation} = this.props;
-      
-      navigation.navigate("Projects")
-
-
-    }
-
-    onSignUpNowPressed(){
-         
-      const {navigation} = this.props;
-       
-      navigation.navigate("Registration")
     }
 
   render() {
@@ -49,30 +21,6 @@ export default class Login extends React.Component {
                 />
             </View>
 
-        <Container style={{flex: 4}}>
-            <Content style={styles.container}>
-              <Form style={styles.form}>
-                  <Item floatingLabel>
-                    <Icon active name='md-person' />
-                    <Label>{Intl.login_username}</Label>
-                    <Input />
-                  </Item>
-                  
-                  <Item floatingLabel style={{marginTop: 10}}>
-                    <Icon active name='key' />
-                    <Label>{Intl.login_password}</Label>
-                    <Input secureTextEntry={true} />
-                  </Item>
-              </Form>
-
-              <Button style={styles.button} onPress={this.onLogin}>
-                <Text style={styles.buttonText}>{Intl.login_button}</Text>
-              </Button>
-
-              <Text onPress={this.onSignUpNowPressed} style={styles.signUpNowText}>{'Sign Up Now!'}</Text>
-              <Text style={styles.bottomText}>{"Ingenuity Creations ® 2019"}</Text>
-            </Content>
-        </Container>
 
       </View>
     );
@@ -88,6 +36,7 @@ const styles = StyleSheet.create({
       alignItems: 'stretch',
       padding: 10,
       marginTop: 15,
+      borderRadius: 100
   },
   welcomeImage: {
       width: Dimensions.get('window').width-80,

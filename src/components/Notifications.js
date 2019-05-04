@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Button, Fab, Header, Icon, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View } from 'native-base';
 
-export default class Projects extends React.Component {
+export default class Notifications extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -11,13 +11,13 @@ export default class Projects extends React.Component {
   
     render() {
 
-    const {navigation} = this.props; 
+        const {navigation} = this.props; 
 
     return (
       <Container>
             <View style={{flex: 1}}>
                 <List>
-                    <ListItem onLongPress={() => alert("Edit Project")} avatar onPress={()=>navigation.navigate("TasksBoards")}>
+                    <ListItem avatar onPress={()=>navigation.navigate("TasksBoards")}>
                     <Left>
                         <Thumbnail source={{ uri: 'Image URL' }} />
                     </Left>
@@ -30,14 +30,6 @@ export default class Projects extends React.Component {
                     </Right>
                     </ListItem>
                 </List>
-                <Fab
-                    active
-                    containerStyle={{ }}
-                    style={{ backgroundColor: '#77567a' }}
-                    position="bottomRight"
-                    onPress={() => navigation.navigate("EditProject")}>
-                    <Icon name="ios-add" />
-                </Fab>
             </View>
       </Container>
     );
