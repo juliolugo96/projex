@@ -19,22 +19,41 @@ import { Icon, Text } from 'native-base';
 import {TouchableOpacity} from 'react-native';
 import ProfileScreen from '../screens/ProfileScreen';
 
-
 const MainStack = createStackNavigator({
       Projects: {
         screen: ProjectsScreen,
         navigationOptions: ({ navigation }) => {
           return ({
-              headerStyle: {
-                elevation: 0
-              },
-              headerRight: <TouchableOpacity
+              headerTitle: <Text style={{marginLeft: 'auto', marginRight: 'auto', }}>{"Your Projects"}</Text>,
+              });
+      }
+      },
+      EditProject: { screen: EditProjectScreen },
+      TasksBoards: { 
+        screen: TasksBoardsScreen,
+        navigationOptions: ({ navigation }) => {
+          return ({
+              headerTitle: <Text style={{marginLeft: 'auto', marginRight: 'auto', }}>{"Tasks"}</Text>,
+              });
+      }
+      },
+      EditTask: { screen: EditTaskScreen },
+      Settings: { screen: SettingsScreen },
+      Notifications: { screen: NotificationsScreen },
+      Profile: { screen: ProfileScreen }
+    },
+    {
+      defaultNavigationOptions: ({navigation}) => {
+        return ({
+          headerStyle: {
+          elevation: 0
+        },
+        headerRight: <TouchableOpacity
                       onPress={() => {
                         navigation.navigate("Notifications")
                       }}>
-                  <Icon style={{marginRight: 20, color: '#c47ac0'}} name="md-notifications"/>
-              </TouchableOpacity>,
-              headerTitle: <Text style={{marginLeft: 'auto', marginRight: 'auto', }}>{"Your Projects"}</Text>,
+                          <Icon style={{marginRight: 20, color: '#c47ac0'}} name="md-notifications"/>
+                      </TouchableOpacity>,
               headerLeft: ( 
                   <TouchableOpacity
                     onPress={() => {
@@ -43,17 +62,9 @@ const MainStack = createStackNavigator({
                   >
                     <Icon bordered size={20} style={{marginLeft: 20, color: '#c47ac0'}} name="md-menu"/>
                   </TouchableOpacity>),
-            
-              });
+      });
       }
-      },
-      EditProject: { screen: EditProjectScreen },
-      TasksBoards: { screen: TasksBoardsScreen },
-      EditTask: { screen: EditTaskScreen },
-      Settings: { screen: SettingsScreen },
-      Notifications: { screen: NotificationsScreen },
-      Profile: { screen: ProfileScreen }
-    },
+    }
   );
 
 const SidebarPanel = createDrawerNavigator({
