@@ -1,26 +1,21 @@
 import React from 'react';
 import { Container, Header, Tab, Tabs, ScrollableTab, Card, CardItem, Body,  Text } from 'native-base';
+import Board from './tasksboards_components/Board';
 
 export default class TasksBoards extends React.Component{
 
     render(){
        return ( 
        <Container>
-        <Tabs tabBarPosition="bottom" renderTabBar={()=> <ScrollableTab />}>
-          <Tab heading="To do" >
-            <Card onPress={()=>this.props.navigation.navigate("EditTask")}>
-                <CardItem>
-                <Body>
-                    <Text> {"Hola"} </Text>
-                </Body>
-                </CardItem>
-            </Card>
+        <Tabs tabBarPosition="bottom">
+          <Tab activeTabStyle={{backgroundColor:'#c47ac0'}} tabStyle={{backgroundColor:'#77567a'}} heading="To do" >
+            <Board {...this.props} type='todo' />
           </Tab>
-          <Tab heading="Doing">
-            <Text>{"How"}</Text>
+          <Tab {...this.props} activeTabStyle={{backgroundColor:'#c47ac0'}} tabStyle={{backgroundColor:'#77567a'}} heading="Doing">
+            <Board type='doing' />
           </Tab>
-          <Tab heading="Done">
-          <Text>{"Are you?"}</Text>
+          <Tab {...this.props} activeTabStyle={{backgroundColor:'#c47ac0'}} tabStyle={{backgroundColor:'#77567a'}} heading="Done">
+            <Board type='done' />
           </Tab>
         </Tabs>
       </Container>); 

@@ -38,7 +38,7 @@ export default class LateralPanel extends Component {
           </ListItem>
           <ListItem icon>
             <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
+              <Button onPress={() => navigation.navigate("Tasks")} style={{ backgroundColor: "#007AFF" }}>
                 <Icon active name="wifi" />
               </Button>
             </Left>
