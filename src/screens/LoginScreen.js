@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../components/Login';
+import Login from '../components/sessions_components/Login';
 
 export default class LoginScreen extends React.Component{
 

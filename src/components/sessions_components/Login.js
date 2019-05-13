@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Header, Text, Content, Form, Item, Input, Label, View, Button, Icon  } from 'native-base';
 import {StyleSheet, Image, Dimensions } from 'react-native';
-import Intl from '../../intl/intl';
+import Intl from '../../../intl/intl';
+import {COLOR_SCHEMA} from '../../constants';
 
 export default class Login extends React.Component {
 
@@ -14,11 +15,11 @@ export default class Login extends React.Component {
 
     componentWillMount(){
       // For development purposes only
-
+/*
       const {navigation} = this.props;
       
       navigation.navigate("Projects")
-
+*/
       //////////////////////////
     }
 
@@ -45,7 +46,7 @@ export default class Login extends React.Component {
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image style={styles.welcomeImage}
-                      source={require('../../assets/images/drawing.png')} 
+                      source={require('../../../assets/images/drawing.png')} 
                 />
             </View>
 
@@ -82,17 +83,13 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F1F2',
   },
   imageContainer: {
       alignItems: 'stretch',
-      padding: 10,
-      marginTop: 15,
   },
   welcomeImage: {
       width: Dimensions.get('window').width-80,
       resizeMode: 'contain',
-      marginTop: 10,
       marginBottom: 0,
       alignSelf: 'center',
   }, 
@@ -113,7 +110,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#77567a',
+    backgroundColor: COLOR_SCHEMA.saturatedDark,
     marginTop: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline',
-    color: '#77567a' 
+    color: COLOR_SCHEMA.saturatedDark
   }
 
 }); 
