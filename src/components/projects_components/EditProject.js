@@ -20,7 +20,7 @@ import {
         Thumbnail, } from 'native-base';
 import {StyleSheet, Text} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {COUNTRIES} from '../constants';
+import {COUNTRIES, COLOR_SCHEMA} from '../../constants';
 
 export default class EditProject extends Component {
   state = {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     confirmationFab: {
-      backgroundColor: '#77dd77'
+      backgroundColor: COLOR_SCHEMA.saturatedDark
     },
     item: {
       marginBottom: 20,

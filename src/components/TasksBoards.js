@@ -12,10 +12,10 @@ export default class TasksBoards extends React.Component{
             <Board {...this.props} type='todo' />
           </Tab>
           <Tab {...this.props} activeTabStyle={{backgroundColor:'#c47ac0'}} tabStyle={{backgroundColor:'#77567a'}} heading="Doing">
-            <Board type='doing' />
+            <Board {...this.props} type='doing' />
           </Tab>
           <Tab {...this.props} activeTabStyle={{backgroundColor:'#c47ac0'}} tabStyle={{backgroundColor:'#77567a'}} heading="Done">
-            <Board type='done' />
+            <Board {...this.props} type='done' />
           </Tab>
         </Tabs>
       </Container>); 

@@ -1,5 +1,5 @@
 import React from 'react';
-import EditProject from '../components/EditProject';
+import EditProject from '../components/projects_components/EditProject';
 
 export default class EditProjectScreen extends React.Component{
 

@@ -1,30 +1,13 @@
 import React, { Component } from 'react';
-import { 
-        Container, 
-        Header, 
-        View, 
-        Button, 
-        Icon, 
-        Fab, 
-        Item, 
-        Input, 
-        ActionSheet, 
-        Textarea, 
-        DatePicker, 
-        Content, 
-        List, 
-        ListItem, 
-        Left, 
-        Body, 
-        Right, 
-        Thumbnail, } from 'native-base';
+import { Container, Header, View, Button, Icon, Fab, Item, Input, ActionSheet } from 'native-base';
 import {StyleSheet, Text} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {COUNTRIES} from '../constants';
+import {COUNTRIES} from '../../constants';
+import {COLOR_SCHEMA} from '../../constants';
 
-export default class EditProject extends Component {
+export default class Registration extends Component {
   state = {
-    avatarSource: {uri: "Choose a project picture"},
+    avatarSource: {uri: "Choose a profile picture"},
     country: "No country selected"
   };
   
@@ -34,11 +17,7 @@ export default class EditProject extends Component {
     this.handlePress = this.handlePress.bind(this);
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.selectCountryTapped = this.selectCountryTapped.bind(this);
-    this.setDate = this.setDate.bind(this);
-}
-    setDate(newDate) {
-    this.setState({ chosenDate: newDate });
-    }
+  }
 
   selectPhotoTapped() {
     const options = {
@@ -91,13 +70,10 @@ export default class EditProject extends Component {
   }
 
   render() {
-
-    const {navigation} = this.props;
-
     return (  
       <Container style={styles.container}>
-        <Content style={{ flex: 1 }}>
-        <Fab
+        <View style={{ flex: 1 }}>
+          <Fab
             active
             containerStyle={{ }}
             style={styles.confirmationFab}
@@ -107,11 +83,12 @@ export default class EditProject extends Component {
           </Fab>
 
           <Item style={{...styles.item, marginTop: 20}}>
-            <Input placeholder="Title" />
+            <Input placeholder="Username" />
           </Item>
         
-          <Textarea style={styles.item} rowSpan={5} placeholder="Description" />
-         
+          <Item style={styles.item}>
+            <Input placeholder="Email" />
+          </Item>
 
           <View style={styles.item}>
             <Button style={styles.button} onPress={this.selectPhotoTapped.bind(this)}>
@@ -125,46 +102,16 @@ export default class EditProject extends Component {
           </View>
 
           <View style={styles.item}>
-            <DatePicker
-                defaultDate={new Date(2018, 4, 4)}
-                minimumDate={new Date(2018, 1, 1)}
-                maximumDate={new Date(2018, 12, 31)}
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText="Select date"
-                textStyle={{ color: "green" }}
-                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                onDateChange={this.setDate}
-                disabled={false}
-                />
-          </View>
-
-          <Item style={{...styles.item, marginTop: 20}}>
-            <Input placeholder="Add new member" />
-            <Icon name="ios-add"  />
-          </Item>
-
-          <Content>
-                <List>
-                    <ListItem avatar onPress={()=>navigation.navigate("Profile")}>
-                    <Left>
-                        <Thumbnail source={{ uri: 'Image URL' }} />
-                    </Left>
-                    <Body>
-                        <Text>Kumar Pratik</Text>
-                        <Text note>Invitation sent</Text>
-                    </Body>
-                    <Right>
-                        <Text note>Developer</Text>
-                    </Right>
-                    </ListItem>
-                    
-                </List>
-          </Content>     
-        </Content>
+            <Button style={styles.button} onPress={this.selectCountryTapped}>
+              <Icon name="md-globe" />
+            </Button>
+            <View style={styles.textContainer}>
+              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.pictureText}>
+                {this.state.country}
+              </Text>
+            </View> 
+          </View>        
+        </View>
       </Container>
     );
   }
@@ -188,7 +135,7 @@ const styles = StyleSheet.create({
       width: '70%'
     },
     button: {
-      backgroundColor: '#e39ec1',
+      backgroundColor: COLOR_SCHEMA.light,
       borderRadius: 5,
     },
     pictureText: {

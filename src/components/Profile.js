@@ -30,7 +30,6 @@ export default class Profile extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F1F2',
   },
   imageContainer: {
       alignItems: 'stretch',

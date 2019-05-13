@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Button, Fab, Header, Icon, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View } from 'native-base';
+import {COLOR_SCHEMA} from '../constants';
+import {StyleSheet} from 'react-native';
 
 export default class Projects extends React.Component {
     constructor(props) {
@@ -32,8 +34,7 @@ export default class Projects extends React.Component {
                 </List>
                 <Fab
                     active
-                    containerStyle={{ }}
-                    style={{ backgroundColor: '#77567a' }}
+                    style={styles.addProjectFab}
                     position="bottomRight"
                     onPress={() => navigation.navigate("EditProject")}>
                     <Icon name="ios-add" />
@@ -43,3 +44,11 @@ export default class Projects extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create(
+  {
+    addProjectFab: {
+      backgroundColor: COLOR_SCHEMA.saturatedDark
+    }
+  }
+)
