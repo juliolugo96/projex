@@ -3,6 +3,7 @@ import { Container, Header, Text, Content, Form, Item, Input, Label, View, Butto
 import {StyleSheet, Image, Dimensions } from 'react-native';
 import Intl from '../../../intl/intl';
 import {COLOR_SCHEMA} from '../../constants';
+import {pushNotifications} from '../../services';
 
 export default class Login extends React.Component {
 
@@ -39,6 +40,10 @@ export default class Login extends React.Component {
       navigation.navigate("Registration")
     }
 
+    handleOnPress = () =>  {
+      pushNotifications.localNotification();
+    };
+
   render() {
 
 
@@ -66,7 +71,7 @@ export default class Login extends React.Component {
                   </Item>
               </Form>
 
-              <Button style={styles.button} onPress={this.onLogin}>
+              <Button style={styles.button} onPress={this.handleOnPress}>
                 <Text style={styles.buttonText}>{Intl.login_button}</Text>
               </Button>
 
