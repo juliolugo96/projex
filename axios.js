@@ -1,12 +1,12 @@
-const axios = require('axios');
-import {BASE_URL, DEFAULT_EMAIL, DEFAULT_TOKEN} from './config';
-import {store} from './redux/store';
+const axios = require("axios");
+import { BASE_URL, DEFAULT_EMAIL, DEFAULT_TOKEN } from "./config";
+// import {store} from './redux/store';
 
 const instance = axios.create({
   baseURL: `${BASE_URL}/api/v1/`,
   headers: {
-    'content-type': 'application/json', 
-    'accept':'application/json',
+    "Content-Type": "application/json",
+    accept: "application/json"
   }
 });
 
@@ -44,8 +44,8 @@ instance.interceptors.response.use(function (response) {
 */
 
 export const removeAuthTokens = () => {
-  instance.defaults.headers.common['X-User-Email'] = '';
-  instance.defaults.headers.common['X-User-Token'] = '';
-}
+  instance.defaults.headers.common["X-User-Email"] = "";
+  instance.defaults.headers.common["X-User-Token"] = "";
+};
 
 export default instance;
