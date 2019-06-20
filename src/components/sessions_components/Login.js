@@ -21,9 +21,6 @@ import { logIn } from "../../api/api";
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-
-    this.onLogin = this.onLogin.bind(this);
-    this.onSignUpNowPressed = this.onSignUpNowPressed.bind(this);
   }
 
   componentWillMount() {
@@ -36,18 +33,18 @@ export default class Login extends React.Component {
     //////////////////////////
   }
 
-  onLogin(data) {
+  onLogin = data => {
     const { navigation } = this.props;
-    const params = { "email": "admin@admin.com", "password": "admin12345" };
+    const params = { email: "admin@admin.com", password: "admin12345" };
     a = logIn(params);
     navigation.navigate("Projects");
-  }
+  };
 
-  onSignUpNowPressed() {
+  onSignUpNowPressed = () => {
     const { navigation } = this.props;
 
     navigation.navigate("Registration");
-  }
+  };
 
   handleOnPress = () => {
     pushNotifications.localNotification();

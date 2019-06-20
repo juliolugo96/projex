@@ -36,11 +36,18 @@ export async function logOut(params) {
 /// Register
 
 export async function signUp(params) {
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+    accept: "application/json"
+  };
+
   try {
-    const response = await axios.post("/rest-auth/registration/", params);
+    const response = await axios.post("/rest-auth/registration/", params, {
+      headers
+    });
     return response.data;
   } catch (error) {
-    console.log("SignUp");
+    console.log(error);
     throw new Error(error);
   }
 }
@@ -68,3 +75,18 @@ export async function resetPassword(params) {
     throw new Error(error);
   }
 }
+
+
+/////////////////////////////////////////////
+
+
+export async function fetchProjects(params) {
+  try {
+    const response = await axios.post("/projects", params);
+    return response.data;
+  } catch (error) {
+    console.log("Projects");
+    throw new Error(error);
+  }
+}
+
