@@ -17,7 +17,7 @@ import {
 import { NavigationActions } from "react-navigation";
 import { StatusBar } from "react-native";
 import { COLOR_SCHEMA } from "../constants";
-import { logOut } from "../api/api";
+import { logOut } from "../api";
 
 export default class LateralPanel extends Component {
   state = {

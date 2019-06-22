@@ -17,7 +17,7 @@ import {
 } from "native-base";
 import { COLOR_SCHEMA } from "../constants";
 import { StyleSheet } from "react-native";
-import { fetchProjects } from "../api/api";
+import { fetchProjects } from "../api";
 
 export default class Projects extends React.Component {
   constructor(props) {

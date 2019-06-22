@@ -1,9 +1,9 @@
-const initialState = {
-  currentUser: {}
-};
+import {combineReducers} from 'redux';
+import currentUserReducer from './currentUserReducer';
 
-function rootReducer(state = initialState, action) {
-  return state;
+const rootReducer = combineReducers({
+  currentUser: currentUserReducer
 }
+);
 
 export default rootReducer;

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Container,
   Header,
@@ -16,9 +17,9 @@ import { StyleSheet, Image, Dimensions } from "react-native";
 import Intl from "../../../intl/intl";
 import { COLOR_SCHEMA } from "../../constants";
 import { pushNotifications } from "../../services";
-import { logIn } from "../../api/api";
+import { logIn } from "../../redux/actions/currentUserActions";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -150,3 +151,11 @@ const styles = StyleSheet.create({
     color: COLOR_SCHEMA.saturatedDark
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  };
+};
+
+export default connect(mapStateToProps, {logIn})(Login);

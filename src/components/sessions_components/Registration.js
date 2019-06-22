@@ -15,7 +15,7 @@ import { StyleSheet, Text } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import { COUNTRIES } from "../../constants";
 import { COLOR_SCHEMA } from "../../constants";
-import { signUp } from "../../api/api";
+import { signUp } from "../../api";
 
 export default class Registration extends Component {
   state = {
