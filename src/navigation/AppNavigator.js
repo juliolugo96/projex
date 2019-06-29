@@ -6,7 +6,7 @@ import {
   createDrawerNavigator,
   createAppContainer
 } from "react-navigation";
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../components/sessions_components/Login';
 import ProjectsScreen from '../screens/ProjectsScreen'
 import TasksBoardsScreen from '../screens/TasksboardsScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';

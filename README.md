@@ -72,6 +72,7 @@ Follow the instruction [here](https://yarnpkg.com/lang/en/docs/install)
 ### RUNNING THE PROJECT
 
 - Run `yarn` command to install all JavaScript packages.
+- Generate android folder using `react-native eject`
 - Go to your React Native app folder and start metro bundler `react-native start`
 - Start your virtual device in Genymotion
 - Deploy your app to your virtual device `react-native run-android`

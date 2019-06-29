@@ -34,11 +34,18 @@ class Login extends React.Component {
     //////////////////////////
   }
 
-  onLogin = data => {
+  loginCallback = response => {
     const { navigation } = this.props;
-    const params = { email: "admin@admin.com", password: "admin12345" };
-    a = logIn(params);
+
+    console.log(response);
+
     navigation.navigate("Projects");
+  };
+
+  onLogin = data => {
+    const params = { email: "admin@admin.com", password: "admin12345" };
+
+    this.props.logIn(params, this.loginCallback);
   };
 
   onSignUpNowPressed = () => {
@@ -158,4 +165,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {logIn})(Login);
+export default connect(
+  mapStateToProps,
+  { logIn }
+)(Login);
