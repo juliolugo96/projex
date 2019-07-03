@@ -16,8 +16,10 @@ import axios from "../../axios";
 export async function logIn(params) {
   try {
     const response = await axios.post("/rest-auth/login/", params);
+    console.log("Print response: ", response);
     return response.data;
   } catch (error) {
+    console.log(error.response);
     console.log("Login");
     throw new Error(error);
   }
@@ -37,7 +39,7 @@ export async function logOut(params) {
 
 export async function signUp(params) {
   const headers = {
-    'Content-Type': 'multipart/form-data',
+    "Content-Type": "multipart/form-data",
     accept: "application/json"
   };
 
@@ -76,17 +78,14 @@ export async function resetPassword(params) {
   }
 }
 
-
 /////////////////////////////////////////////
-
 
 export async function fetchProjects(params) {
   try {
-    const response = await axios.post("/projects", params);
+    const response = await axios.get("/projects", params);
     return response.data;
   } catch (error) {
     console.log("Projects");
     throw new Error(error);
   }
 }
-

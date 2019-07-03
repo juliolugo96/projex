@@ -32,12 +32,15 @@ class Login extends React.Component {
       navigation.navigate("Projects")
 */
     //////////////////////////
+
+    
+
   }
 
   loginCallback = response => {
     const { navigation } = this.props;
 
-    console.log(response);
+    console.log('Response: ', response);
 
     navigation.navigate("Projects");
   };
