@@ -17,7 +17,13 @@ import { StyleSheet, Image, Dimensions } from "react-native";
 import Intl from "../../../intl/intl";
 import { COLOR_SCHEMA } from "../../constants";
 import { pushNotifications } from "../../services";
-import { logIn } from "../../redux/actions/currentUserActions";
+import {
+  logIn,
+  logOut,
+  retrieveCurrentUser
+} from "../../redux/actions/currentUserActions";
+import { removeAuthTokens } from "../../../axios";
+import { persistor } from "../../redux";
 
 class Login extends React.Component {
   constructor(props) {
@@ -32,15 +38,15 @@ class Login extends React.Component {
       navigation.navigate("Projects")
 */
     //////////////////////////
-
-    
-
+    //removeAuthTokens();
+    if (this.props.currentUser.isLogged)
+      this.props.logOut(() => persistor.purge());
   }
 
   loginCallback = response => {
     const { navigation } = this.props;
-
-    console.log('Response: ', response);
+    this.props.retrieveCurrentUser();
+    console.log("Response: ", response);
 
     navigation.navigate("Projects");
   };
@@ -170,5 +176,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logIn }
+  { logIn, retrieveCurrentUser, logOut }
 )(Login);

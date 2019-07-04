@@ -14,13 +14,13 @@ export const LOG_IN_FULFILLED = "LOG_IN_FULFILLED";
 export const LOG_IN_REJECTED = "LOG_IN_REJECTED";
 export const CLEAR_CURRENT_USER_ERRORS = "CLEAR_CURRENT_USER_ERRORS";
 export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
+export const CHANGE_COLOR_SCHEMA = "CHANGE_COLOR_SCHEMA";
 
 export const logIn = (params, callback) => async dispatch => {
   dispatch({ type: LOGGING_IN });
   try {
     const response = await logInUser(params);
-    const user = response.data;
-    dispatch({ type: LOG_IN_FULFILLED, payload: user });
+    dispatch({ type: LOG_IN_FULFILLED, payload: response });
     callback(response);
   } catch (err) {
     console.log("currentUser::logIn", err.response);
@@ -32,10 +32,18 @@ export const retrieveCurrentUser = () => async dispatch => {
   try {
     const response = await getCurrentUser();
     const prefResponse = await getPreferences();
-    const user = response.data;
-    const preferences = prefResponse.data;
-    console.log(preferences);
-    dispatch({ type: LOG_IN_FULFILLED, payload: { ...user, ...preferences } });
+    const user = response;
+    const preferences = prefResponse.results[0];
+    dispatch({
+      type: LOG_IN_FULFILLED,
+      payload: {
+        ...user,
+        profile_photo: undefined,
+        profilePhoto: user.profile_photo,
+        colorSchema: preferences.color_schema,
+        language: preferences.language
+      }
+    });
   } catch (err) {
     console.log("currentUser::logIn", err.response);
     dispatch({ type: LOG_IN_REJECTED, payload: err.message });
@@ -57,6 +65,11 @@ export const logOut = callback => async dispatch => {
 export const changeLanguage = lang => ({
   type: CHANGE_LANGUAGE,
   payload: lang
+});
+
+export const changeColorSchema = color => ({
+  type: CHANGE_COLOR_SCHEMA,
+  payload: color
 });
 
 export const clearErrors = () => ({ type: CLEAR_CURRENT_USER_ERRORS });

@@ -5,7 +5,8 @@ import {
   LOG_IN_REJECTED,
   CLEAR_CURRENT_USER_ERRORS,
   LOGGING_IN,
-  CHANGE_LANGUAGE
+  CHANGE_LANGUAGE,
+  CHANGE_COLOR_SCHEMA
 } from "../actions/currentUserActions";
 
 const initialState = {
@@ -13,15 +14,13 @@ const initialState = {
   token: "",
   profilePhotoUrl: "",
   language: undefined,
-  color: undefined,
+  colorSchema: undefined,
   isLogged: false,
   loading: false,
   errors: []
 };
 
 export default (currentUserReducer = (state = initialState, action) => {
-  console.log("Reducer", action);
-
   switch (action.type) {
     case LOGGING_IN:
       return { ...state, loading: true };
@@ -43,6 +42,8 @@ export default (currentUserReducer = (state = initialState, action) => {
       return { ...state, errors: [] };
     case CHANGE_LANGUAGE:
       return { ...state, language: action.payload };
+    case CHANGE_COLOR_SCHEMA:
+      return { ...state, colorSchema: action.payload };
     default:
       return state;
   }

@@ -17,13 +17,14 @@ instance.interceptors.request.use(
   function(config) {
     // Convert data to snake case before request is sent
     /* if( config.data ){
-      config.data = decamelize(config.data, {deep: true});;  
+      config.data = decamelize(config.data, {deep: true});  
     } */
 
     // Add authorization headers
     // config.headers.common['X-User-Email'] = store.getState().currentUser.email;
 
-    console.log(store.getState());
+    console.log("My Current State: ", store.getState());
+    console.log(config);
 
     if (store.getState().currentUser.token != "")
       config.headers.common["Authorization"] =
@@ -38,20 +39,22 @@ instance.interceptors.request.use(
 );
 
 // Add a response interceptor
-/* instance.interceptors.response.use(function (response) {
+/*instance.interceptors.response.use(
+  function(response) {
     // Do something with response data
-    if( response.data ){
-      response.data = camelize(response.data, {deep: true});
+    if (response.data) {
+      response.data = camelize(response.data, { deep: true });
     }
     return response;
-  }, function (error) {
+  },
+  function(error) {
     // Do something with response error
     return Promise.reject(error);
-  });
- 
-*/
+  }
+);*/
+
 export const removeAuthTokens = () => {
-  instance.defaults.headers.common["Authorization"] = "";
+  instance.defaults.headers.common["Authorization"] = undefined;
 };
 
 export default instance;

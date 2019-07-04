@@ -1,7 +1,8 @@
 import React from "react";
+import {connect} from 'react-redux';
 import {
   Container,
-  Button,
+  Spinner,
   Fab,
   Header,
   Icon,
@@ -17,9 +18,9 @@ import {
 } from "native-base";
 import { COLOR_SCHEMA } from "../constants";
 import { StyleSheet } from "react-native";
-import { fetchProjects } from "../api";
+import { fetchProjects } from "../redux/actions/projectsActions";
 
-export default class Projects extends React.Component {
+class Projects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,11 +29,16 @@ export default class Projects extends React.Component {
   }
 
   componentWillMount() {
-    fetchProjects();
+    this.props.fetchProjects();
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, loading } = this.props;
+
+    if (loading)
+      return <Spinner size="large" color={COLOR_SCHEMA.dark} />
+
+    console.log('Loaded projects: ', this.props.projects);
 
     return (
       <Container>
@@ -76,3 +82,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_SCHEMA.saturatedDark
   }
 });
+
+const mapStateToProps = (state) =>
+  {
+    return ({
+      currentProject: state.projects.currentProjectId,
+      projects: state.projects.entities,
+      loading: state.projects.loading
+    });
+  }
+
+export default connect(mapStateToProps, {fetchProjects})(Projects);

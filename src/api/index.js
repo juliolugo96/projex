@@ -1,4 +1,5 @@
-import axios from "../../axios";
+import axios, { removeAuthTokens } from "../../axios";
+import { persistor } from "../redux";
 
 /***
  *
@@ -26,6 +27,7 @@ export async function logIn(params) {
 export async function logOut(params) {
   try {
     const response = await axios.get("/rest-auth/logout/", params);
+    await persistor.purge();
     return response.data;
   } catch (error) {
     console.log("Logout");
@@ -95,9 +97,9 @@ export async function getPreferences(params) {
 
 /////////////////////////////////////////////
 
-export async function fetchProjects(params) {
+export async function fetchProjects(page) {
   try {
-    const response = await axios.get("/projects", params);
+    const response = await axios.get("/projects", { page: page });
     return response.data;
   } catch (error) {
     console.log("Projects", error.response);
