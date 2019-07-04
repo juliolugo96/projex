@@ -23,6 +23,8 @@ instance.interceptors.request.use(
     // Add authorization headers
     // config.headers.common['X-User-Email'] = store.getState().currentUser.email;
 
+    console.log(store.getState());
+
     if (store.getState().currentUser.token != "")
       config.headers.common["Authorization"] =
         "Token " + store.getState().currentUser.token;

@@ -16,11 +16,9 @@ import axios from "../../axios";
 export async function logIn(params) {
   try {
     const response = await axios.post("/rest-auth/login/", params);
-    console.log("Print response: ", response);
     return response.data;
   } catch (error) {
-    console.log(error.response);
-    console.log("Login");
+    console.log("Login: ", error.response);
     throw new Error(error);
   }
 }
@@ -78,6 +76,23 @@ export async function resetPassword(params) {
   }
 }
 
+export async function getCurrentUser(params) {
+  try {
+    const response = await axios.get("/users/current_user");
+    return response.data;
+  } catch (error) {
+    console.log("Current User: ", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function getPreferences(params) {
+  try {
+    const response = await axios.get("/preferences");
+    return response.data;
+  } catch (error) {}
+}
+
 /////////////////////////////////////////////
 
 export async function fetchProjects(params) {
@@ -85,7 +100,7 @@ export async function fetchProjects(params) {
     const response = await axios.get("/projects", params);
     return response.data;
   } catch (error) {
-    console.log("Projects");
+    console.log("Projects", error.response);
     throw new Error(error);
   }
 }
