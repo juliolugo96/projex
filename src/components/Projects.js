@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 import {
   Container,
   Spinner,
@@ -18,7 +18,11 @@ import {
 } from "native-base";
 import { COLOR_SCHEMA } from "../constants";
 import { StyleSheet } from "react-native";
-import { fetchProjects } from "../redux/actions/projectsActions";
+import {
+  fetchProjects,
+  setCurrentProject
+} from "../redux/actions/projectsActions";
+import { BASE_URL } from "../../config";
 
 class Projects extends React.Component {
   constructor(props) {
@@ -32,36 +36,40 @@ class Projects extends React.Component {
     this.props.fetchProjects();
   }
 
+  handleProjectPress(projectId) {
+    const { navigation, setCurrentProject } = this.props;
+    setCurrentProject(projectId);
+    navigation.navigate("TasksBoards");
+  }
+
   render() {
     const { navigation, loading } = this.props;
 
-    if (loading)
-      return <Spinner size="large" color={COLOR_SCHEMA.dark} />
-
-    console.log('Loaded projects: ', this.props.projects);
+    if (loading) return <Spinner size="large" color={COLOR_SCHEMA.dark} />;
 
     return (
       <Container>
         <View style={{ flex: 1 }}>
           <List>
-            <ListItem
-              onLongPress={() => alert("Edit Project")}
-              avatar
-              onPress={() => navigation.navigate("TasksBoards")}
-            >
-              <Left>
-                <Thumbnail source={{ uri: "Image URL" }} />
-              </Left>
-              <Body>
-                <Text>Kumar Pratik</Text>
-                <Text note>
-                  Doing what you like will always keep you happy . .
-                </Text>
-              </Body>
-              <Right>
-                <Text note>3:43 pm</Text>
-              </Right>
-            </ListItem>
+            {Object.values(this.props.projects).map((proj, id) => (
+              <ListItem
+                onLongPress={() => alert("Edit Project")}
+                avatar
+                onPress={() => this.handleProjectPress(proj.id)}
+                key={id}
+              >
+                <Left>
+                  <Thumbnail source={{ uri: proj.project_photo }} />
+                </Left>
+                <Body>
+                  <Text>{proj.title}</Text>
+                  <Text note>{proj.description}</Text>
+                </Body>
+                <Right>
+                  <Text note>3:43 pm</Text>
+                </Right>
+              </ListItem>
+            ))}
           </List>
           <Fab
             active
@@ -83,13 +91,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) =>
-  {
-    return ({
-      currentProject: state.projects.currentProjectId,
-      projects: state.projects.entities,
-      loading: state.projects.loading
-    });
-  }
+const mapStateToProps = state => {
+  return {
+    currentProject: state.projects.currentProjectId,
+    projects: state.projects.entities,
+    loading: state.projects.loading
+  };
+};
 
-export default connect(mapStateToProps, {fetchProjects})(Projects);
+export default connect(
+  mapStateToProps,
+  { fetchProjects, setCurrentProject }
+)(Projects);

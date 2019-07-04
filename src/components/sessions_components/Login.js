@@ -46,8 +46,6 @@ class Login extends React.Component {
   loginCallback = response => {
     const { navigation } = this.props;
     this.props.retrieveCurrentUser();
-    console.log("Response: ", response);
-
     navigation.navigate("Projects");
   };
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Container,
   Header,
@@ -17,9 +18,10 @@ import {
 import { NavigationActions } from "react-navigation";
 import { StatusBar } from "react-native";
 import { COLOR_SCHEMA } from "../constants";
-import { logOut } from "../api";
+import { logOut } from "../redux/actions/currentUserActions";
+import { BASE_URL } from "../../config";
 
-export default class LateralPanel extends Component {
+class LateralPanel extends Component {
   state = {
     switch: false
   };
@@ -36,7 +38,7 @@ export default class LateralPanel extends Component {
 
   handlePress = () => {
     params = {};
-    a = logOut(params);
+    a = this.props.logOut(params);
     this.props.navigation.navigate("Login");
   };
 
@@ -56,7 +58,7 @@ export default class LateralPanel extends Component {
             <Thumbnail
               style={{ marginLeft: "auto", marginRight: "auto" }}
               large
-              source={{ uri: "https://img.chilango.com/2009/06/cerati.jpg" }}
+              source={{ uri: `${BASE_URL}` + `${this.props.currentUser.profilePhoto}` }}
             />
           </Body>
         </Header>
@@ -147,3 +149,12 @@ export default class LateralPanel extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  currentUser: state.currentUser
+});
+
+export default connect(
+  mapStateToProps,
+  { logOut }
+)(LateralPanel);

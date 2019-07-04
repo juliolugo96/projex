@@ -12,7 +12,7 @@ import {
 const initialState = {
   email: "",
   token: "",
-  profilePhotoUrl: "",
+  profilePhoto: "",
   language: undefined,
   colorSchema: undefined,
   isLogged: false,

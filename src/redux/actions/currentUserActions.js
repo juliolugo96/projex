@@ -44,6 +44,8 @@ export const retrieveCurrentUser = () => async dispatch => {
         language: preferences.language
       }
     });
+
+    console.log("Hi dudes");
   } catch (err) {
     console.log("currentUser::logIn", err.response);
     dispatch({ type: LOG_IN_REJECTED, payload: err.message });
