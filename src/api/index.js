@@ -1,17 +1,6 @@
 import axios from "../../axios";
 import { persistor } from "../redux";
 
-/***
- *
- *
- * Define all functions corresponding to API
- *
- * TO DO:
- *
- * Define controllers in Django
- *
- */
-
 /// Authentication functions
 
 export async function logIn(params) {
@@ -19,7 +8,7 @@ export async function logIn(params) {
     const response = await axios.post("/rest-auth/login/", params);
     return response.data;
   } catch (error) {
-    console.log("Login: ", error.response);
+    console.log("users::logIn");
     throw new Error(error);
   }
 }
@@ -30,46 +19,46 @@ export async function logOut(params) {
     await persistor.purge();
     return response.data;
   } catch (error) {
-    console.log("Logout");
+    console.log("users::logOut");
     throw new Error(error);
   }
 }
 
-/// Register
+/// Registration
 
 export async function signUp(params) {
   try {
     const response = await axios.post("/rest-auth/registration/", params);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("users::signUp");
     throw new Error(error);
   }
 }
 
-/// Register
+/// Password management
 
 export async function changePassword(params) {
   try {
     const response = await axios.post("/rest-auth/password/change", params);
     return response.data;
   } catch (error) {
-    console.log("SignUp");
+    console.log("users::changePassword");
     throw new Error(error);
   }
 }
-
-/// Register
 
 export async function resetPassword(params) {
   try {
     const response = await axios.post("/rest-auth/password/reset", params);
     return response.data;
   } catch (error) {
-    console.log("SignUp");
+    console.log("users::resetPassword");
     throw new Error(error);
   }
 }
+
+// Current user
 
 export async function getCurrentUser(params) {
   try {
@@ -77,7 +66,7 @@ export async function getCurrentUser(params) {
     console.log("Get current: ", response.data);
     return response.data;
   } catch (error) {
-    console.log("Current User: ", error.response);
+    console.log("users::getCurrentUser");
     throw new Error(error);
   }
 }
@@ -89,15 +78,14 @@ export async function getPreferences(params) {
   } catch (error) {}
 }
 
-/////////////////////////////////////////////
+// Projects
 
 export async function fetchProjects(page = 1) {
   try {
     const response = await axios.get("/projects", { page: page });
-    //console.log("Fetch Projects: ", response.data);
     return response.data;
   } catch (error) {
-    console.log("Projects", error.response);
+    console.log("Projects::fetchProjects", error.response);
     throw new Error(error);
   }
 }
@@ -108,7 +96,7 @@ export async function createProject(params, callback) {
     callback(response);
     return response.data;
   } catch (error) {
-    console.log("Projects", error.response);
+    console.log("Projects::createProject", error.response);
     throw new Error(error);
   }
 }
@@ -119,12 +107,23 @@ export async function updateProject(params, callback) {
     callback(response);
     return response.data;
   } catch (error) {
-    console.log("Projects", error.response);
+    console.log("Projects::updateProject", error.response);
     throw new Error(error);
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////
+export async function deleteProject(params, callback) {
+  try {
+    const response = await axios.delete(`/projects/${params.id}`, { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Projects::deleteProject", error.response);
+    throw new Error(error);
+  }
+}
+
+// Memberships
 
 export async function getMemberByEmail(params, callback) {
   try {
@@ -137,9 +136,21 @@ export async function getMemberByEmail(params, callback) {
   }
 }
 
-export async function createMembership(params) {
+export async function getUser(params, callback) {
+  try {
+    const response = await axios.put(`/users/${params.id}`, { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Users::getUser", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function createMembership(params, callback) {
   try {
     const response = await axios.post("/memberships", { params });
+    callback(response);
     return response.data;
   } catch (error) {
     console.log("Projects::createMemberships", error.response);
@@ -147,9 +158,10 @@ export async function createMembership(params) {
   }
 }
 
-export async function updateMembership(params) {
+export async function updateMembership(params, callback) {
   try {
     const response = await axios.put(`/memberships/${params.id}`, { params });
+    callback(response);
     return response.data;
   } catch (error) {
     console.log("Projects::updateMemberships", error.response);
@@ -157,3 +169,13 @@ export async function updateMembership(params) {
   }
 }
 
+export async function deleteMembership(params, callback) {
+  try {
+    const response = await axios.put(`/memberships/${params.id}`, { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Projects::deleteMemberships", error.response);
+    throw new Error(error);
+  }
+}

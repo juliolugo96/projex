@@ -19,14 +19,34 @@ import {
   Right,
   Thumbnail
 } from "native-base";
+import { connect } from "react-redux";
 import { StyleSheet, Text } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import { COUNTRIES, COLOR_SCHEMA } from "../../constants";
+import { BASE_URL } from "../../../config";
+import { fetchMembers } from "../../redux/actions/membershipsActions";
 
-export default class EditProject extends Component {
+class EditProject extends Component {
   state = {
     avatarSource: { uri: "Choose a project picture" },
+    members: [],
+    title: "",
+    mail: "",
+    description: ""
   };
+
+  componentWillMount() {
+    const { navigation, projects, fetchMembers } = this.props;
+    const projectId = navigation.getParam("id", -1);
+
+    if (projectId != -1) {
+      const proj = Object.values(projects).find(a => a.id == projectId);
+
+      if (proj != undefined) {
+        fetchMembers(proj.project_to_user);
+      }
+    }
+  }
 
   setDate = newDate => {
     this.setState({ chosenDate: newDate });
@@ -72,23 +92,24 @@ export default class EditProject extends Component {
 
   handleDescriptionChange = e => this.setState({ description: e });
 
-  handleMemberMail = e => this.setState({ mail: e })
+  handleMemberMail = e => this.setState({ mail: e });
 
-  memberAddedCallback = (response) => {
-    
-  }
+  memberAddedCallback = response => {};
 
-  handleAddMember = () => { 
-
-  }
+  handleAddMember = () => {
+    this.setState({ members: members.push(this.state.mail) });
+  };
 
   handlePress = () => {
     alert("Confirmed");
   };
 
   render() {
-    const { navigation } = this.props;
-
+    const { navigation, members } = this.props;
+    const membersList =
+      Object.values(members).length != 0
+        ? Object.values(members).length
+        : this.state.members;
     return (
       <Container style={styles.container}>
         <Content style={{ flex: 1 }}>
@@ -114,10 +135,7 @@ export default class EditProject extends Component {
           />
 
           <View style={styles.item}>
-            <Button
-              style={styles.button}
-              onPress={this.selectPhotoTapped}
-            >
+            <Button style={styles.button} onPress={this.selectPhotoTapped}>
               <Icon name="md-camera" />
             </Button>
             <View style={styles.textContainer}>
@@ -149,24 +167,38 @@ export default class EditProject extends Component {
           </View>
 
           <Item style={{ ...styles.item, marginTop: 20 }}>
-            <Input onChangeText={this.handleMemberMail} placeholder="Add new member" />
+            <Input
+              onChangeText={this.handleMemberMail}
+              placeholder="Add new member"
+            />
             <Icon onPress={this.handleAddMember} name="ios-add" />
           </Item>
 
           <Content>
             <List>
-              <ListItem avatar onPress={() => navigation.navigate("Profile")}>
-                <Left>
-                  <Thumbnail source={{ uri: "Image URL" }} />
-                </Left>
-                <Body>
-                  <Text>Kumar Pratik</Text>
-                  <Text note>Invitation sent</Text>
-                </Body>
-                <Right>
-                  <Text note>Developer</Text>
-                </Right>
-              </ListItem>
+              {membersList.length != 0 &&
+                membersList.map((value, id) => (
+                  <ListItem
+                    key={id}
+                    avatar
+                    onPress={() =>
+                      navigation.navigate("Profile", { id: value.id })
+                    }
+                  >
+                    <Left>
+                      <Thumbnail
+                        source={{ uri: ` ${BASE_URL}${value.profilePhoto}` }}
+                      />
+                    </Left>
+                    <Body>
+                      <Text>{value.name}</Text>
+                      <Text note>{value.status}</Text>
+                    </Body>
+                    <Right>
+                      <Text note>{value.role}</Text>
+                    </Right>
+                  </ListItem>
+                ))}
             </List>
           </Content>
         </Content>
@@ -202,3 +234,13 @@ const styles = StyleSheet.create({
     marginLeft: 10
   }
 });
+
+const mapStateToProps = state => ({
+  projects: state.projects.entities,
+  members: state.memberships.entities
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchMembers }
+)(EditProject);
