@@ -111,12 +111,16 @@ class Registration extends Component {
 
     if (this.state.imageData != undefined)
       params.append("profile_photo", this.state.imageData);
-    
-      params.append("username", this.state.username);
+
+    params.append("username", this.state.username);
     params.append("email", this.state.email);
     params.append("password1", this.state.password1);
     params.append("password2", this.state.password2);
-    params.append("country", this.state.country);
+
+    if (this.state.country != "No country selected")
+      params.append("country", this.state.country);
+    else
+    params.append("country", null);
 
     signUp(params, this.signUpCallback);
   };

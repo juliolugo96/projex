@@ -38,15 +38,9 @@ export async function logOut(params) {
 /// Register
 
 export async function signUp(params) {
-  const headers = {
-    "Content-Type": "multipart/form-data",
-    accept: "application/json"
-  };
 
   try {
-    const response = await axios.post("/rest-auth/registration/", params, {
-      headers
-    });
+    const response = await axios.post("/rest-auth/registration/", params);
     return response.data;
   } catch (error) {
     console.log(error);

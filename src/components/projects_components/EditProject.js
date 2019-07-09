@@ -67,8 +67,16 @@ export default class EditProject extends Component {
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
+        const imageData = {
+          uri: response.uri,
+          type: response.type,
+          name: response.fileName
+          // data: response.data
+        };
+
         this.setState({
-          avatarSource: source
+          avatarSource: source,
+          imageData: imageData
         });
       }
     });

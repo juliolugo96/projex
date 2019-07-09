@@ -21,6 +21,8 @@ import { COLOR_SCHEMA } from "../constants";
 import { logOut } from "../redux/actions/currentUserActions";
 import { BASE_URL } from "../../config";
 
+const DEFAULT_AVATAR = require("../../assets/images/avatar.png");
+
 class LateralPanel extends Component {
   state = {
     switch: false
@@ -45,6 +47,11 @@ class LateralPanel extends Component {
 
   render() {
     const { navigation } = this.props;
+    var userImage = DEFAULT_AVATAR;
+    if (this.props.currentUser.profilePhoto != null)
+      userImage = {
+        uri: `${BASE_URL}` + `${this.props.currentUser.profilePhoto}`
+      };
 
     return (
       <Container>
@@ -59,9 +66,7 @@ class LateralPanel extends Component {
             <Thumbnail
               style={{ marginLeft: "auto", marginRight: "auto" }}
               large
-              source={{
-                uri: `${BASE_URL}` + `${this.props.currentUser.profilePhoto}`
-              }}
+              source={userImage}
             />
           </Body>
         </Header>

@@ -54,9 +54,11 @@ class Login extends React.Component {
   };
 
   onLogin = data => {
-    //const params = { email: "admin@admin.com", password: "admin12345" };
+    // Uncomment for development purposes
+    const params = { email: "admin@admin.com", password: "admin12345" };
 
-    const params = { email: this.state.email, password: this.state.password };
+    // Comment for development purposes
+    // const params = { email: this.state.email, password: this.state.password };
     this.props.logIn(params, this.loginCallback);
   };
 
