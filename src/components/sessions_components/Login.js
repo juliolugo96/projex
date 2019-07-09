@@ -22,13 +22,19 @@ import {
   logOut,
   retrieveCurrentUser
 } from "../../redux/actions/currentUserActions";
-import { removeAuthTokens } from "../../../axios";
-import { persistor } from "../../redux";
+
+/**
+ *
+ *  import { removeAuthTokens } from "../../../axios";
+ *  import { persistor } from "../../redux";
+ *
+ */
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  state = {
+    email: "",
+    password: ""
+  };
 
   componentWillMount() {
     // For development purposes only
@@ -39,8 +45,6 @@ class Login extends React.Component {
 */
     //////////////////////////
     //removeAuthTokens();
-    if (this.props.currentUser.isLogged)
-      this.props.logOut(() => persistor.purge());
   }
 
   loginCallback = response => {
@@ -50,8 +54,9 @@ class Login extends React.Component {
   };
 
   onLogin = data => {
-    const params = { email: "admin@admin.com", password: "admin12345" };
+    //const params = { email: "admin@admin.com", password: "admin12345" };
 
+    const params = { email: this.state.email, password: this.state.password };
     this.props.logIn(params, this.loginCallback);
   };
 
@@ -60,6 +65,10 @@ class Login extends React.Component {
 
     navigation.navigate("Registration");
   };
+
+  handleEmailInput = e => this.setState({ email: e });
+
+  handlePasswordInput = e => this.setState({ password: e });
 
   handleOnPress = () => {
     pushNotifications.localNotification();
@@ -81,13 +90,16 @@ class Login extends React.Component {
               <Item floatingLabel>
                 <Icon active name="md-person" />
                 <Label>{Intl.login_username}</Label>
-                <Input />
+                <Input onChangeText={this.handleEmailInput} />
               </Item>
 
               <Item floatingLabel style={{ marginTop: 10 }}>
                 <Icon active name="key" />
                 <Label>{Intl.login_password}</Label>
-                <Input secureTextEntry={true} />
+                <Input
+                  onChangeText={this.handlePasswordInput}
+                  secureTextEntry={true}
+                />
               </Item>
             </Form>
 

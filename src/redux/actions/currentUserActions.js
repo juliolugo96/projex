@@ -1,6 +1,7 @@
 import {
   logIn as logInUser,
   logOut as logOutUser,
+  signUp as signUpUser,
   getCurrentUser,
   getPreferences
 } from "../../api";
@@ -15,6 +16,21 @@ export const LOG_IN_REJECTED = "LOG_IN_REJECTED";
 export const CLEAR_CURRENT_USER_ERRORS = "CLEAR_CURRENT_USER_ERRORS";
 export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
 export const CHANGE_COLOR_SCHEMA = "CHANGE_COLOR_SCHEMA";
+export const SIGNING_UP = "SIGNING_UP";
+export const SIGN_UP_FULLFILED = "SIGN_UP_FULLFILED";
+export const SIGN_UP_REJECTED = "SIGN_UP_REJECTED";
+
+export const signUp = (params, callback) => async dispatch => {
+  dispatch({ type: SIGNING_UP });
+  try {
+    const response = await signUpUser(params);
+    dispatch({ type: SIGN_UP_FULLFILED, payload: response });
+    callback(response);
+  } catch (err) {
+    console.log("currentUser::signUp", err.response);
+    dispatch({ type: SIGN_UP_REJECTED, payload: err.message });
+  }
+};
 
 export const logIn = (params, callback) => async dispatch => {
   dispatch({ type: LOGGING_IN });
@@ -44,15 +60,13 @@ export const retrieveCurrentUser = () => async dispatch => {
         language: preferences.language
       }
     });
-
-    console.log("Hi dudes");
   } catch (err) {
     console.log("currentUser::logIn", err.response);
     dispatch({ type: LOG_IN_REJECTED, payload: err.message });
   }
 };
 
-export const logOut = callback => async dispatch => {
+export const logOut = (callback) => async dispatch => {
   dispatch({ type: LOGGING_OUT });
   try {
     const response = await logOutUser();

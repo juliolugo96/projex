@@ -1,4 +1,4 @@
-import axios, { removeAuthTokens } from "../../axios";
+import axios from "../../axios";
 import { persistor } from "../redux";
 
 /***
@@ -81,6 +81,7 @@ export async function resetPassword(params) {
 export async function getCurrentUser(params) {
   try {
     const response = await axios.get("/users/current_user");
+    console.log("Get current: ", response.data);
     return response.data;
   } catch (error) {
     console.log("Current User: ", error.response);
@@ -97,9 +98,10 @@ export async function getPreferences(params) {
 
 /////////////////////////////////////////////
 
-export async function fetchProjects(page) {
+export async function fetchProjects(page = 1) {
   try {
     const response = await axios.get("/projects", { page: page });
+    console.log("Fetch Projects: ", response.data);
     return response.data;
   } catch (error) {
     console.log("Projects", error.response);

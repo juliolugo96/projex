@@ -22,7 +22,7 @@ export default (projectsReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        entities: { ...state.entities, ...action.payload.results },
+        entities: action.payload.results,
         nextPage: action.payload.next,
         prevPage: action.payload.prev
       };

@@ -36,9 +36,10 @@ class LateralPanel extends Component {
     this.setState({ switch: !this.state.switch });
   }
 
+  confirmLogOut = () => console.log("LogOut successfully");
+
   handlePress = () => {
-    params = {};
-    a = this.props.logOut(params);
+    a = this.props.logOut(this.confirmLogOut);
     this.props.navigation.navigate("Login");
   };
 
@@ -58,7 +59,9 @@ class LateralPanel extends Component {
             <Thumbnail
               style={{ marginLeft: "auto", marginRight: "auto" }}
               large
-              source={{ uri: `${BASE_URL}` + `${this.props.currentUser.profilePhoto}` }}
+              source={{
+                uri: `${BASE_URL}` + `${this.props.currentUser.profilePhoto}`
+              }}
             />
           </Body>
         </Header>

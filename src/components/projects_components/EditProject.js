@@ -1,33 +1,34 @@
-import React, { Component } from 'react';
-import { 
-        Container, 
-        Header, 
-        View, 
-        Button, 
-        Icon, 
-        Fab, 
-        Item, 
-        Input, 
-        ActionSheet, 
-        Textarea, 
-        DatePicker, 
-        Content, 
-        List, 
-        ListItem, 
-        Left, 
-        Body, 
-        Right, 
-        Thumbnail, } from 'native-base';
-import {StyleSheet, Text} from 'react-native';
-import ImagePicker from 'react-native-image-picker';
-import {COUNTRIES, COLOR_SCHEMA} from '../../constants';
+import React, { Component } from "react";
+import {
+  Container,
+  Header,
+  View,
+  Button,
+  Icon,
+  Fab,
+  Item,
+  Input,
+  ActionSheet,
+  Textarea,
+  DatePicker,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Body,
+  Right,
+  Thumbnail
+} from "native-base";
+import { StyleSheet, Text } from "react-native";
+import ImagePicker from "react-native-image-picker";
+import { COUNTRIES, COLOR_SCHEMA } from "../../constants";
 
 export default class EditProject extends Component {
   state = {
-    avatarSource: {uri: "Choose a project picture"},
+    avatarSource: { uri: "Choose a project picture" },
     country: "No country selected"
   };
-  
+
   constructor(props) {
     super(props);
 
@@ -35,10 +36,11 @@ export default class EditProject extends Component {
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.selectCountryTapped = this.selectCountryTapped.bind(this);
     this.setDate = this.setDate.bind(this);
-}
-    setDate(newDate) {
+  }
+
+  setDate(newDate) {
     this.setState({ chosenDate: newDate });
-    }
+  }
 
   selectPhotoTapped() {
     const options = {
@@ -46,19 +48,19 @@ export default class EditProject extends Component {
       maxWidth: 500,
       maxHeight: 500,
       storageOptions: {
-        skipBackup: true,
-      },
+        skipBackup: true
+      }
     };
 
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+    ImagePicker.showImagePicker(options, response => {
+      console.log("Response = ", response);
 
       if (response.didCancel) {
-        console.log('User cancelled photo picker');
+        console.log("User cancelled photo picker");
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        console.log("User tapped custom button: ", response.customButton);
       } else {
         let source = { uri: response.uri };
 
@@ -66,13 +68,13 @@ export default class EditProject extends Component {
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          avatarSource: source,
+          avatarSource: source
         });
       }
     });
   }
 
-  selectCountryTapped(){
+  selectCountryTapped() {
     ActionSheet.show(
       {
         options: Object.values(COUNTRIES.getNames("en")),
@@ -81,89 +83,95 @@ export default class EditProject extends Component {
       buttonIndex => {
         const option = Object.values(COUNTRIES.getNames("en"))[buttonIndex];
 
-        this.setState({country: option == undefined ? this.state.country : option})
+        this.setState({
+          country: option == undefined ? this.state.country : option
+        });
       }
-    )
+    );
   }
 
-  handlePress(){
-      alert("Confirmed")
+  handlePress() {
+    alert("Confirmed");
   }
 
   render() {
+    const { navigation } = this.props;
 
-    const {navigation} = this.props;
-
-    return (  
+    return (
       <Container style={styles.container}>
         <Content style={{ flex: 1 }}>
-        <Fab
+          <Fab
             active
-            containerStyle={{ }}
+            containerStyle={{}}
             style={styles.confirmationFab}
             position="bottomRight"
-            onPress={this.handlePress}>
+            onPress={this.handlePress}
+          >
             <Icon name="md-checkmark" />
           </Fab>
 
-          <Item style={{...styles.item, marginTop: 20}}>
+          <Item style={{ ...styles.item, marginTop: 20 }}>
             <Input placeholder="Title" />
           </Item>
-        
+
           <Textarea style={styles.item} rowSpan={5} placeholder="Description" />
-         
 
           <View style={styles.item}>
-            <Button style={styles.button} onPress={this.selectPhotoTapped.bind(this)}>
+            <Button
+              style={styles.button}
+              onPress={this.selectPhotoTapped.bind(this)}
+            >
               <Icon name="md-camera" />
             </Button>
             <View style={styles.textContainer}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.pictureText}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={styles.pictureText}
+              >
                 {this.state.avatarSource.uri}
               </Text>
-            </View> 
+            </View>
           </View>
 
           <View style={styles.item}>
             <DatePicker
-                defaultDate={new Date(2018, 4, 4)}
-                minimumDate={new Date(2018, 1, 1)}
-                maximumDate={new Date(2018, 12, 31)}
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText="Select date"
-                textStyle={{ color: "green" }}
-                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                onDateChange={this.setDate}
-                disabled={false}
-                />
+              defaultDate={new Date()}
+              minimumDate={new Date(2018, 1, 1)}
+              locale={"en"}
+              timeZoneOffsetInMinutes={undefined}
+              modalTransparent={false}
+              animationType={"fade"}
+              androidMode={"default"}
+              placeHolderText="Select date"
+              textStyle={{ color: "green" }}
+              placeHolderTextStyle={{ color: "#d3d3d3" }}
+              onDateChange={this.setDate}
+              disabled={false}
+            />
           </View>
 
-          <Item style={{...styles.item, marginTop: 20}}>
+          <Item style={{ ...styles.item, marginTop: 20 }}>
             <Input placeholder="Add new member" />
-            <Icon name="ios-add"  />
+            <Icon name="ios-add" />
           </Item>
 
           <Content>
-                <List>
-                    <ListItem avatar onPress={()=>navigation.navigate("Profile")}>
-                    <Left>
-                        <Thumbnail source={{ uri: 'Image URL' }} />
-                    </Left>
-                    <Body>
-                        <Text>Kumar Pratik</Text>
-                        <Text note>Invitation sent</Text>
-                    </Body>
-                    <Right>
-                        <Text note>Developer</Text>
-                    </Right>
-                    </ListItem>
-                    
-                </List>
-          </Content>     
+            <List>
+              <ListItem avatar onPress={() => navigation.navigate("Profile")}>
+                <Left>
+                  <Thumbnail source={{ uri: "Image URL" }} />
+                </Left>
+                <Body>
+                  <Text>Kumar Pratik</Text>
+                  <Text note>Invitation sent</Text>
+                </Body>
+                <Right>
+                  <Text note>Developer</Text>
+                </Right>
+              </ListItem>
+            </List>
+          </Content>
         </Content>
       </Container>
     );
@@ -171,29 +179,29 @@ export default class EditProject extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    confirmationFab: {
-      backgroundColor: COLOR_SCHEMA.saturatedDark
-    },
-    item: {
-      marginBottom: 20,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      width: '90%',
-      flexDirection: 'row',
-    },
-    textContainer: {
-      width: '70%'
-    },
-    button: {
-      backgroundColor: '#e39ec1',
-      borderRadius: 5,
-    },
-    pictureText: {
-      marginTop: 'auto',
-      marginBottom: 'auto',
-      marginLeft: 10,
-    }
+  container: {
+    flex: 1
+  },
+  confirmationFab: {
+    backgroundColor: COLOR_SCHEMA.saturatedDark
+  },
+  item: {
+    marginBottom: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "90%",
+    flexDirection: "row"
+  },
+  textContainer: {
+    width: "70%"
+  },
+  button: {
+    backgroundColor: "#e39ec1",
+    borderRadius: 5
+  },
+  pictureText: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: 10
+  }
 });

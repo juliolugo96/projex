@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Container,
   Header,
@@ -15,9 +16,12 @@ import { StyleSheet, Text } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import { COUNTRIES } from "../../constants";
 import { COLOR_SCHEMA } from "../../constants";
-import { signUp } from "../../api";
+import {
+  signUp,
+  retrieveCurrentUser
+} from "../../redux/actions/currentUserActions";
 
-export default class Registration extends Component {
+class Registration extends Component {
   state = {
     username: "",
     email: "",
@@ -102,15 +106,26 @@ export default class Registration extends Component {
   handleConfPasswordInput = e => this.setState({ password2: e });
 
   handlePress = () => {
+    const { signUp } = this.props;
     let params = new FormData();
-    params.append("profile_photo", this.state.imageData);
-    params.append("username", this.state.username);
+
+    if (this.state.imageData != undefined)
+      params.append("profile_photo", this.state.imageData);
+    
+      params.append("username", this.state.username);
     params.append("email", this.state.email);
     params.append("password1", this.state.password1);
     params.append("password2", this.state.password2);
     params.append("country", this.state.country);
 
-    signUp(params);
+    signUp(params, this.signUpCallback);
+  };
+
+  signUpCallback = response => {
+    const { navigation } = this.props;
+
+    this.props.retrieveCurrentUser();
+    navigation.navigate("Projects");
   };
 
   render() {
@@ -218,3 +233,14 @@ const styles = StyleSheet.create({
     marginLeft: 10
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { signUp, retrieveCurrentUser }
+)(Registration);

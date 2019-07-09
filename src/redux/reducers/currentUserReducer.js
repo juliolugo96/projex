@@ -5,6 +5,9 @@ import {
   LOG_IN_REJECTED,
   CLEAR_CURRENT_USER_ERRORS,
   LOGGING_IN,
+  SIGNING_UP,
+  SIGN_UP_REJECTED,
+  SIGN_UP_FULLFILED,
   CHANGE_LANGUAGE,
   CHANGE_COLOR_SCHEMA
 } from "../actions/currentUserActions";
@@ -33,6 +36,18 @@ export default (currentUserReducer = (state = initialState, action) => {
         loading: false
       };
     case LOG_IN_REJECTED:
+      return { ...state, errors: [action.payload] };
+    case SIGNING_UP:
+      return { ...state, loading: true };
+    case SIGN_UP_FULLFILED:
+      return {
+        ...state,
+        ...action.payload,
+        errors: [],
+        isLogged: true,
+        loading: false
+      };
+    case SIGN_UP_REJECTED:
       return { ...state, errors: [action.payload] };
     case LOG_OUT_FULFILLED:
       return initialState;

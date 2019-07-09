@@ -46,7 +46,7 @@ class Projects extends React.Component {
     const { navigation, loading } = this.props;
 
     if (loading) return <Spinner size="large" color={COLOR_SCHEMA.dark} />;
-
+    //console.log(this.props.projects);
     return (
       <Container>
         <View style={{ flex: 1 }}>
