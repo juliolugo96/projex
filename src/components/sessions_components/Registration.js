@@ -31,14 +31,6 @@ class Registration extends Component {
     country: "No country selected"
   };
 
-  constructor(props) {
-    super(props);
-
-    // this.handlePress = this.handlePress.bind(this);
-    // this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
-    // this.selectCountryTapped = this.selectCountryTapped.bind(this);
-  }
-
   selectPhotoTapped = () => {
     const options = {
       quality: 1.0,
@@ -60,17 +52,10 @@ class Registration extends Component {
         console.log("User tapped custom button: ", response.customButton);
       } else {
         let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        // const imageData = new FormData();
-        //imageData.append("name", "image");
         const imageData = {
           uri: response.uri,
           type: response.type,
           name: response.fileName
-          // data: response.data
         };
 
         this.setState({
@@ -116,11 +101,9 @@ class Registration extends Component {
     params.append("email", this.state.email);
     params.append("password1", this.state.password1);
     params.append("password2", this.state.password2);
+    params.append("country", this.state.country);
 
-    if (this.state.country != "No country selected")
-      params.append("country", this.state.country);
-    else
-    params.append("country", null);
+    
 
     signUp(params, this.signUpCallback);
   };

@@ -26,23 +26,13 @@ import { COUNTRIES, COLOR_SCHEMA } from "../../constants";
 export default class EditProject extends Component {
   state = {
     avatarSource: { uri: "Choose a project picture" },
-    country: "No country selected"
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handlePress = this.handlePress.bind(this);
-    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
-    this.selectCountryTapped = this.selectCountryTapped.bind(this);
-    this.setDate = this.setDate.bind(this);
-  }
-
-  setDate(newDate) {
+  setDate = newDate => {
     this.setState({ chosenDate: newDate });
-  }
+  };
 
-  selectPhotoTapped() {
+  selectPhotoTapped = () => {
     const options = {
       quality: 1.0,
       maxWidth: 500,
@@ -64,14 +54,10 @@ export default class EditProject extends Component {
       } else {
         let source = { uri: response.uri };
 
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         const imageData = {
           uri: response.uri,
           type: response.type,
           name: response.fileName
-          // data: response.data
         };
 
         this.setState({
@@ -80,27 +66,25 @@ export default class EditProject extends Component {
         });
       }
     });
+  };
+
+  handleTitleChange = e => this.setState({ title: e });
+
+  handleDescriptionChange = e => this.setState({ description: e });
+
+  handleMemberMail = e => this.setState({ mail: e })
+
+  memberAddedCallback = (response) => {
+    
   }
 
-  selectCountryTapped() {
-    ActionSheet.show(
-      {
-        options: Object.values(COUNTRIES.getNames("en")),
-        title: "Select Country"
-      },
-      buttonIndex => {
-        const option = Object.values(COUNTRIES.getNames("en"))[buttonIndex];
+  handleAddMember = () => { 
 
-        this.setState({
-          country: option == undefined ? this.state.country : option
-        });
-      }
-    );
   }
 
-  handlePress() {
+  handlePress = () => {
     alert("Confirmed");
-  }
+  };
 
   render() {
     const { navigation } = this.props;
@@ -119,15 +103,20 @@ export default class EditProject extends Component {
           </Fab>
 
           <Item style={{ ...styles.item, marginTop: 20 }}>
-            <Input placeholder="Title" />
+            <Input onChangeText={this.handleTitleChange} placeholder="Title" />
           </Item>
 
-          <Textarea style={styles.item} rowSpan={5} placeholder="Description" />
+          <Textarea
+            onChangeText={this.handleDescriptionChange}
+            style={styles.item}
+            rowSpan={5}
+            placeholder="Description"
+          />
 
           <View style={styles.item}>
             <Button
               style={styles.button}
-              onPress={this.selectPhotoTapped.bind(this)}
+              onPress={this.selectPhotoTapped}
             >
               <Icon name="md-camera" />
             </Button>
@@ -160,8 +149,8 @@ export default class EditProject extends Component {
           </View>
 
           <Item style={{ ...styles.item, marginTop: 20 }}>
-            <Input placeholder="Add new member" />
-            <Icon name="ios-add" />
+            <Input onChangeText={this.handleMemberMail} placeholder="Add new member" />
+            <Icon onPress={this.handleAddMember} name="ios-add" />
           </Item>
 
           <Content>

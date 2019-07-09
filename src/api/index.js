@@ -38,7 +38,6 @@ export async function logOut(params) {
 /// Register
 
 export async function signUp(params) {
-
   try {
     const response = await axios.post("/rest-auth/registration/", params);
     return response.data;
@@ -95,10 +94,66 @@ export async function getPreferences(params) {
 export async function fetchProjects(page = 1) {
   try {
     const response = await axios.get("/projects", { page: page });
-    console.log("Fetch Projects: ", response.data);
+    //console.log("Fetch Projects: ", response.data);
     return response.data;
   } catch (error) {
     console.log("Projects", error.response);
     throw new Error(error);
   }
 }
+
+export async function createProject(params, callback) {
+  try {
+    const response = await axios.post(`/projects/`, { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Projects", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function updateProject(params, callback) {
+  try {
+    const response = await axios.put(`/projects/${params.id}`, { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Projects", error.response);
+    throw new Error(error);
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+export async function getMemberByEmail(params, callback) {
+  try {
+    const response = await axios.get("/users/user_by_email", { params });
+    callback(response);
+    return response.data;
+  } catch (error) {
+    console.log("Projects::getMemberByEmail", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function createMembership(params) {
+  try {
+    const response = await axios.post("/memberships", { params });
+    return response.data;
+  } catch (error) {
+    console.log("Projects::createMemberships", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function updateMembership(params) {
+  try {
+    const response = await axios.put(`/memberships/${params.id}`, { params });
+    return response.data;
+  } catch (error) {
+    console.log("Projects::updateMemberships", error.response);
+    throw new Error(error);
+  }
+}
+
