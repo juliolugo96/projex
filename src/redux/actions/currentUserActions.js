@@ -27,7 +27,7 @@ export const signUp = (params, callback) => async dispatch => {
     dispatch({ type: SIGN_UP_FULLFILED, payload: response });
     callback(response);
   } catch (err) {
-    console.log("currentUser::signUp", err.response);
+    console.log("currentUser::signUp", err);
     dispatch({ type: SIGN_UP_REJECTED, payload: err.message });
   }
 };
@@ -39,7 +39,7 @@ export const logIn = (params, callback) => async dispatch => {
     dispatch({ type: LOG_IN_FULFILLED, payload: response });
     callback(response);
   } catch (err) {
-    console.log("currentUser::logIn", err.response);
+    console.log("currentUser::logIn", err);
     dispatch({ type: LOG_IN_REJECTED, payload: err.message });
   }
 };
@@ -61,12 +61,12 @@ export const retrieveCurrentUser = () => async dispatch => {
       }
     });
   } catch (err) {
-    console.log("currentUser::logIn", err.response);
+    console.log("currentUser::logIn", err);
     dispatch({ type: LOG_IN_REJECTED, payload: err.message });
   }
 };
 
-export const logOut = (callback) => async dispatch => {
+export const logOut = callback => async dispatch => {
   dispatch({ type: LOGGING_OUT });
   try {
     const response = await logOutUser();

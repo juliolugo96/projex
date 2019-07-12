@@ -39,7 +39,7 @@ class Projects extends React.Component {
   handleProjectPress(projectId) {
     const { navigation, setCurrentProject } = this.props;
     setCurrentProject(projectId);
-    navigation.navigate("TasksBoards");
+    navigation.navigate("TasksBoards", { id: projectId });
   }
 
   render() {
@@ -49,11 +49,21 @@ class Projects extends React.Component {
     //console.log(this.props.projects);
     return (
       <Container>
-        <View style={{ flex: 1 }}>
+        <Fab
+          active
+          style={styles.addProjectFab}
+          position="bottomRight"
+          onPress={() => navigation.navigate("EditProject")}
+        >
+          <Icon name="ios-add" />
+        </Fab>
+        <Content style={{ flex: 1 }}>
           <List>
             {Object.values(this.props.projects).map((proj, id) => (
               <ListItem
-                onLongPress={() => alert("Edit Project")}
+                onLongPress={() =>
+                  alert("Project edition currently not available")
+                }
                 avatar
                 onPress={() => this.handleProjectPress(proj.id)}
                 key={id}
@@ -66,20 +76,14 @@ class Projects extends React.Component {
                   <Text note>{proj.description}</Text>
                 </Body>
                 <Right>
-                  <Text note>3:43 pm</Text>
+                  <Text note>
+                    {new Date(proj.updated_at).toTimeString().split(" ")[0]}
+                  </Text>
                 </Right>
               </ListItem>
             ))}
           </List>
-          <Fab
-            active
-            style={styles.addProjectFab}
-            position="bottomRight"
-            onPress={() => navigation.navigate("EditProject")}
-          >
-            <Icon name="ios-add" />
-          </Fab>
-        </View>
+        </Content>
       </Container>
     );
   }
@@ -87,7 +91,9 @@ class Projects extends React.Component {
 
 const styles = StyleSheet.create({
   addProjectFab: {
-    backgroundColor: COLOR_SCHEMA.saturatedDark
+    backgroundColor: COLOR_SCHEMA.saturatedDark,
+    position: "absolute",
+    zIndex: 5000
   }
 });
 

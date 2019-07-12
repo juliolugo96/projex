@@ -90,10 +90,9 @@ export async function fetchProjects(page = 1) {
   }
 }
 
-export async function createProject(params, callback) {
+export async function createProject(params) {
   try {
-    const response = await axios.post(`/projects/`, { params });
-    callback(response);
+    const response = await axios.post(`/projects`, params);
     return response.data;
   } catch (error) {
     console.log("Projects::createProject", error.response);
@@ -101,10 +100,9 @@ export async function createProject(params, callback) {
   }
 }
 
-export async function updateProject(params, callback) {
+export async function updateProject(params) {
   try {
-    const response = await axios.put(`/projects/${params.id}`, { params });
-    callback(response);
+    const response = await axios.patch(`/projects/${params.id}`, params);
     return response.data;
   } catch (error) {
     console.log("Projects::updateProject", error.response);
@@ -112,10 +110,9 @@ export async function updateProject(params, callback) {
   }
 }
 
-export async function deleteProject(params, callback) {
+export async function deleteProject(params) {
   try {
-    const response = await axios.delete(`/projects/${params.id}`, { params });
-    callback(response);
+    const response = await axios.delete(`/projects/${params.id}`, params);
     return response.data;
   } catch (error) {
     console.log("Projects::deleteProject", error.response);
@@ -125,10 +122,9 @@ export async function deleteProject(params, callback) {
 
 // Memberships
 
-export async function getMemberByEmail(params, callback) {
+export async function getMemberByEmail(params) {
   try {
-    const response = await axios.get("/users/user_by_email", { params });
-    callback(response);
+    const response = await axios.get("/users/user_by_email", params);
     return response.data;
   } catch (error) {
     console.log("Projects::getMemberByEmail", error.response);
@@ -136,10 +132,9 @@ export async function getMemberByEmail(params, callback) {
   }
 }
 
-export async function getUser(params, callback) {
+export async function getUser(params) {
   try {
-    const response = await axios.put(`/users/${params.id}`, { params });
-    callback(response);
+    const response = await axios.get(`/users/${params.id}`, params);
     return response.data;
   } catch (error) {
     console.log("Users::getUser", error.response);
@@ -147,10 +142,9 @@ export async function getUser(params, callback) {
   }
 }
 
-export async function createMembership(params, callback) {
+export async function createMembership(params) {
   try {
-    const response = await axios.post("/memberships", { params });
-    callback(response);
+    const response = await axios.post("/memberships", params);
     return response.data;
   } catch (error) {
     console.log("Projects::createMemberships", error.response);
@@ -158,10 +152,9 @@ export async function createMembership(params, callback) {
   }
 }
 
-export async function updateMembership(params, callback) {
+export async function updateMembership(params) {
   try {
-    const response = await axios.put(`/memberships/${params.id}`, { params });
-    callback(response);
+    const response = await axios.patch(`/memberships/${params.id}`, params);
     return response.data;
   } catch (error) {
     console.log("Projects::updateMemberships", error.response);
@@ -169,13 +162,81 @@ export async function updateMembership(params, callback) {
   }
 }
 
-export async function deleteMembership(params, callback) {
+export async function deleteMembership(params) {
   try {
-    const response = await axios.put(`/memberships/${params.id}`, { params });
-    callback(response);
+    const response = await axios.delete(`/memberships/${params.id}`, params);
     return response.data;
   } catch (error) {
     console.log("Projects::deleteMemberships", error.response);
     throw new Error(error);
   }
 }
+
+// Board
+
+export async function getBoards(params) {
+  try {
+    const response = await axios.get(
+      `/boards?project=${params.project}`,
+      params
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Boards::getBoards", error.response);
+    throw new Error(error);
+  }
+}
+
+/// Tasks
+
+export async function fetchTasks(params) {
+  try {
+    const response = await axios.get(`/tasks?board=${params.board}`, params);
+    return response.data;
+  } catch (error) {
+    console.log("Tasks::fetchTasks", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function createTask(params) {
+  try {
+    const response = await axios.post(`/tasks`, params);
+    return response.data;
+  } catch (error) {
+    console.log("Tasks::createTask", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function updateTask(params) {
+  try {
+    const response = await axios.patch(`/tasks/${params.id}`, params);
+    return response.data;
+  } catch (error) {
+    console.log("Tasks::updateTask", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function deleteTask(params) {
+  try {
+    const response = await axios.delete(`/tasks/${params.id}`, params);
+    return response.data;
+  } catch (error) {
+    console.log("Tasks::deleteTask", error.response);
+    throw new Error(error);
+  }
+}
+
+export async function getTask(params) {
+  try {
+    const response = await axios.get(`/tasks/${params.id}`, params);
+    return response.data;
+  } catch (error) {
+    console.log("Tasks::getTask", error.response);
+    throw new Error(error);
+  }
+}
+
+//

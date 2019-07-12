@@ -4,9 +4,10 @@ import {
   FETCH_PROJECTS_REJECTED,
   SET_CURRENT_PROJECT
 } from "../actions/projectsActions";
+import { LOAD_FULFILLED } from "../actions/membershipsActions";
 
 const initialState = {
-  entities: {},
+  entities: [],
   errors: [],
   currentProjectId: undefined,
   nextPage: undefined,
@@ -27,7 +28,13 @@ export default (projectsReducer = (state = initialState, action) => {
         prevPage: action.payload.prev
       };
     case FETCH_PROJECTS_REJECTED:
-      return { ...state, errors: [...state.errors, ...action.payload] };
+      return {
+        ...state,
+        errors: [...state.errors, action.payload],
+        loading: false
+      };
+    case LOAD_FULFILLED:
+      return { ...state, loading: false };
     case SET_CURRENT_PROJECT:
       return { ...state, currentProjectId: action.payload };
     default:

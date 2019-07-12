@@ -23,12 +23,8 @@ import {
   retrieveCurrentUser
 } from "../../redux/actions/currentUserActions";
 
-/**
- *
- *  import { removeAuthTokens } from "../../../axios";
- *  import { persistor } from "../../redux";
- *
- */
+import { removeAuthTokens } from "../../../axios";
+import { persistor } from "../../redux";
 
 class Login extends React.Component {
   state = {
@@ -44,7 +40,8 @@ class Login extends React.Component {
       navigation.navigate("Projects")
 */
     //////////////////////////
-    //removeAuthTokens();
+    // removeAuthTokens();
+    // persistor.purge();
   }
 
   loginCallback = response => {

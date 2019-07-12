@@ -1,11 +1,12 @@
 import {
   FETCHING_MEMBERS,
   FETCH_MEMBERS_FULFILLED,
-  FETCH_MEMBERS_REJECTED
+  FETCH_MEMBERS_REJECTED,
+  LOAD_FULFILLED
 } from "../actions/membershipsActions";
 
 const initialState = {
-  entities: {},
+  entities: [],
   errors: [],
   loading: false
 };
@@ -17,14 +18,18 @@ export default (membershipsReducer = (state = initialState, action) => {
     case FETCH_MEMBERS_FULFILLED:
       return {
         ...state,
-        entities: { ...action.payload.map(s => s) },
+        entities: action.payload,
         loading: false
       };
     case FETCH_MEMBERS_REJECTED:
       return {
         ...state,
         loading: false,
-        errors: [...state.errors, ...action.payload]
+        errors: [...state.errors, action.payload]
       };
+    case LOAD_FULFILLED:
+      return { ...state, loading: false };
+    default:
+      return state;
   }
 });
