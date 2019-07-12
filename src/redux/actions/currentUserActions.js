@@ -53,7 +53,9 @@ export const retrieveCurrentUser = () => async dispatch => {
     dispatch({
       type: LOG_IN_FULFILLED,
       payload: {
-        ...user,
+        username: user.username,
+        email: user.email,
+        country: user.country,
         profile_photo: undefined,
         profilePhoto: user.profile_photo,
         colorSchema: preferences.color_schema,

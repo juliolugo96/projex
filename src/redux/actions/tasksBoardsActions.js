@@ -1,7 +1,9 @@
 import {
   getBoards,
   fetchTasks as getTasks,
-  createTask as generateTask
+  createTask as generateTask,
+  updateTask,
+  deleteTask
 } from "../../api";
 
 export const FETCHING_BOARDS = "FETCHING_BOARDS";
@@ -23,7 +25,7 @@ export const fetchBoards = params => async dispatch => {
       // console.log("Response:", response.results);
       tasksResponse[responseBoards.results[i].id] = response.results;
     }
-    console.log("fetchBoards response: ", tasksResponse);
+    // console.log("fetchBoards response: ", tasksResponse);
     dispatch({ type: FETCH_BOARDS_FULFILLED, payload: responseBoards.results });
     dispatch({ type: FETCH_TASKS_FULFILLED, payload: tasksResponse });
   } catch (err) {
@@ -47,8 +49,21 @@ export const createTask = params => async dispatch => {
 export const updateExistingTask = params => async dispatch => {
   dispatch({ type: FETCHING_TASKS });
   try {
-    const response = await generateTask(params);
+    const response = await updateTask(params);
     console.log("createTask response: ", response);
+    dispatch({ type: LOAD_FULFILLED });
+  } catch (err) {
+    console.log("tasks::createTask", err);
+    dispatch({ type: FETCH_TASKS_REJECTED, payload: err.message });
+  }
+};
+
+export const destroyExistingTask = (params, callback) => async dispatch => {
+  dispatch({ type: FETCHING_TASKS });
+  try {
+    const response = await deleteTask(params);
+    console.log("deleteTask response: ", response);
+    callback();
     dispatch({ type: LOAD_FULFILLED });
   } catch (err) {
     console.log("tasks::createTask", err);

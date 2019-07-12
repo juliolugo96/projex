@@ -18,6 +18,7 @@ import {
   Body,
   Right,
   Thumbnail,
+  CheckBox,
   Spinner
 } from "native-base";
 import { StyleSheet, Text } from "react-native";
@@ -25,7 +26,11 @@ import { StyleSheet, Text } from "react-native";
 import { connect } from "react-redux";
 import { COLOR_SCHEMA } from "../../constants";
 import { fetchMembers } from "../../redux/actions/membershipsActions";
-import { createTask } from "../../redux/actions/tasksBoardsActions";
+import {
+  createTask,
+  updateExistingTask,
+  destroyExistingTask
+} from "../../redux/actions/tasksBoardsActions";
 import moment from "moment";
 
 class EditTask extends Component {
@@ -35,7 +40,8 @@ class EditTask extends Component {
     description: "",
     priority: 1,
     chosenDate: new Date(),
-    assigned: []
+    assigned: [],
+    selected: -1
   };
 
   constructor(props) {
@@ -45,17 +51,31 @@ class EditTask extends Component {
     if (task) {
       this.state = {
         // avatarSource: { uri: "Choose a project picture" },
+        board: task.board,
         task: task,
         title: task.title,
         description: task.description,
         priority: task.priority,
         chosenDate: new Date(task.due_date),
-        assigned: task.task_to_user.map(k => k.id)
+        assigned: task.task_to_user.map(k => k.id),
+        selected: this.selectedVal(task.board)
       };
     }
 
     //    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
   }
+
+  selectedVal = val => {
+    const a = this.props.boards.find(k => k.id == val);
+    switch (a.title) {
+      case "todo":
+        return 1;
+      case "doing":
+        return 2;
+      case "done":
+        return 3;
+    }
+  };
 
   componentWillMount() {
     const { projects, fetchMembers, currentProjectId } = this.props;
@@ -144,14 +164,23 @@ class EditTask extends Component {
       board: this.props.navigation.getParam("board", undefined),
       task_to_user: this.state.assigned.map(k => ({ user: k }))
     };
-
-    console.log(params.task_to_user);
-    console.log(this.state.chosenDate);
-
     this.props.createTask(params);
   };
 
-  updateTask = () => {};
+  updateTask = () => {
+    const params = {
+      id: this.state.task.id,
+      title: this.state.title,
+      description: this.state.description,
+      due_date: moment(this.state.chosenDate)
+        .format("YYYY-MM-DD")
+        .toString(),
+      priority: this.state.priority,
+      board: this.state.board
+    };
+
+    this.props.updateExistingTask(params);
+  };
 
   renderPriorityButtons() {
     const cond = num => num === this.state.priority;
@@ -180,6 +209,31 @@ class EditTask extends Component {
     );
   }
 
+  setBoard = num => {
+    console.log("Boards", this.props.boards);
+    var a = {};
+    switch (num) {
+      case 1:
+        a = this.props.boards.find(k => k.title == "todo");
+        this.setState({ board: a.id, selected: 1 });
+        break;
+      case 2:
+        a = this.props.boards.find(k => k.title == "doing");
+        this.setState({ board: a.id, selected: 2 });
+        break;
+      case 3:
+        a = this.props.boards.find(k => k.title == "done");
+        this.setState({ board: a.id, selected: 3 });
+        break;
+      default:
+        break;
+    }
+  };
+
+  isBoard = num => {
+    return num == this.state.selected;
+  };
+
   renderDatePicker() {
     return (
       <DatePicker
@@ -200,6 +254,18 @@ class EditTask extends Component {
       />
     );
   }
+
+  confirmation = () => {
+    alert("Delete successful");
+    this.props.navigation.navigate("Projects");
+  };
+
+  deleteSelectedTask = () => {
+    this.props.destroyExistingTask(
+      { id: this.state.task.id },
+      this.confirmation
+    );
+  };
 
   render() {
     const { navigation, loading } = this.props;
@@ -267,29 +333,78 @@ class EditTask extends Component {
 
           <List>
             {this.props.members.map((v, id) => (
-              <ListItem
-                style={this.isAssigned(v)}
-                key={id}
-                avatar
-                onPress={() => this.assign(v)}
-              >
-                <Left>
-                  <Thumbnail
-                    source={{
-                      uri: v.profile_photo
-                    }}
-                  />
-                </Left>
-                <Body>
-                  <Text>{v.name}</Text>
-                  <Text note>{v.email}</Text>
-                </Body>
-                <Right>
-                  <Text note>{v.role}</Text>
-                </Right>
-              </ListItem>
+              <View key={id}>
+                <ListItem
+                  style={this.isAssigned(v)}
+                  avatar
+                  onPress={() => this.assign(v)}
+                >
+                  <Left>
+                    <Thumbnail
+                      source={{
+                        uri: v.profile_photo
+                      }}
+                    />
+                  </Left>
+                  <Body>
+                    <Text>{v.name}</Text>
+                    <Text note>{v.email}</Text>
+                  </Body>
+                  <Right>
+                    <Text note>{v.role}</Text>
+                  </Right>
+                </ListItem>
+              </View>
             ))}
           </List>
+
+          {this.state.task && (
+            <View>
+              <ListItem>
+                <CheckBox
+                  onPress={() => this.setBoard(1)}
+                  checked={this.isBoard(1)}
+                  color={COLOR_SCHEMA.dark}
+                />
+                <Body>
+                  <Text>To do</Text>
+                </Body>
+              </ListItem>
+              <ListItem>
+                <CheckBox
+                  onPress={() => this.setBoard(2)}
+                  checked={this.isBoard(2)}
+                  color={COLOR_SCHEMA.dark}
+                />
+                <Body>
+                  <Text>Doing</Text>
+                </Body>
+              </ListItem>
+              <ListItem>
+                <CheckBox
+                  onPress={() => this.setBoard(3)}
+                  checked={this.isBoard(3)}
+                  color={COLOR_SCHEMA.dark}
+                />
+                <Body>
+                  <Text>Done</Text>
+                </Body>
+              </ListItem>
+              <Button
+                block
+                style={{
+                  width: "80%",
+                  backgroundColor: COLOR_SCHEMA.light,
+                  color: "black",
+                  marginLeft: "auto",
+                  marginRight: "auto"
+                }}
+                onPress={() => this.deleteSelectedTask()}
+              >
+                <Text>Delete task</Text>
+              </Button>
+            </View>
+          )}
         </Content>
         <Fab
           active
@@ -337,10 +452,11 @@ const mapStateToProps = state => ({
   members: state.memberships.entities,
   projects: state.projects.entities,
   currentProjectId: state.projects.currentProjectId,
-  loading: state.memberships.loading
+  loading: state.memberships.loading,
+  boards: state.tasksBoards.boards
 });
 
 export default connect(
   mapStateToProps,
-  { fetchMembers, createTask }
+  { fetchMembers, createTask, updateExistingTask, destroyExistingTask }
 )(EditTask);
