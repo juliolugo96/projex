@@ -4,12 +4,12 @@ import {
   FETCH_BOARDS_REJECTED,
   FETCHING_TASKS,
   FETCH_TASKS_FULFILLED,
-  FETCH_TASKS_REJECTED
+  FETCH_TASKS_REJECTED,
+  LOAD_FULFILLED
 } from "../actions/tasksBoardsActions";
-import { LOAD_FULFILLED } from "../actions/membershipsActions";
 
 const initialState = {
-  tasks: [],
+  tasks: {},
   boards: [],
   errors: [],
   loadingBoards: false,
@@ -23,14 +23,14 @@ export default (tasksBoardsReducer = (state = initialState, action) => {
     case FETCH_BOARDS_FULFILLED:
       return {
         ...state,
-        loadingBoards: false,
-        boards: action.payload.results
+        boards: action.payload,
+        loadingBoards: false
       };
     case FETCH_BOARDS_REJECTED:
       return {
         ...state,
-        loadingBoards: false,
-        errors: [...state.errors, action.payload]
+        errors: [...state.errors, action.payload],
+        loadingBoards: false
       };
     case FETCHING_TASKS:
       return { ...state, loadingTasks: true };
@@ -38,7 +38,7 @@ export default (tasksBoardsReducer = (state = initialState, action) => {
       return {
         ...state,
         loadingTasks: false,
-        tasks: action.payload.results
+        tasks: action.payload
       };
     case FETCH_TASKS_REJECTED:
       return {

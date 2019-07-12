@@ -29,6 +29,8 @@ class TasksBoards extends React.Component {
     if (loading)
       return <Spinner color={COLOR_SCHEMA.saturatedDark} size="large" />;
 
+    console.log(boards);
+
     return (
       <Container>
         <Tabs tabBarPosition="bottom">
@@ -73,7 +75,8 @@ class TasksBoards extends React.Component {
 const mapStateToProps = state => ({
   currentUser: state.currentUser,
   loading: state.tasksBoards.loadingBoards,
-  boards: state.tasksBoards.boards
+  boards: state.tasksBoards.boards,
+  tasks: state.tasksBoards.tasks
 });
 
 export default connect(

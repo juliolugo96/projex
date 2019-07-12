@@ -19,7 +19,6 @@ import {
   Spinner
 } from "native-base";
 import { connect } from "react-redux";
-import { fetchTasks } from "../../redux/actions/tasksBoardsActions";
 import { COLOR_SCHEMA } from "../../constants";
 
 class Board extends React.Component {
@@ -30,17 +29,12 @@ class Board extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const { fetchTasks, board } = this.props;
-    fetchTasks({ board: board.id });
-  }
-
   priorColored = prior => {
     switch (prior) {
       case 0:
         return COLOR_SCHEMA.background;
       case 1:
-        return "#FFDE83";
+        return "#FFFFE0";
       case 2:
         return "#FF7f7F";
     }
@@ -51,11 +45,11 @@ class Board extends React.Component {
 
     if (loading) return <Spinner size="large" />;
 
-    console.log(tasks);
+    console.log(tasks[board.id]);
 
     return (
       <Container>
-        {this.props.board.title === "todo" && (
+        {board.title === "todo" && (
           <Fab
             active
             containerStyle={{ position: "absolute", zIndex: 5000 }}
@@ -68,19 +62,25 @@ class Board extends React.Component {
         )}
         <Content style={{ flex: 1 }}>
           <Card>
-            {tasks.map((val, id) => (
+            {tasks[board.id].map((val, id) => (
               <CardItem
                 key={id}
                 button
                 onPress={() => navigation.navigate("EditTask", { task: val })}
-                style={{ backgroundColor: this.priorColored(val.priority) }}
+                style={{
+                  marginTop: id > 0 ? 10 : 5,
+                  width: "90%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  backgroundColor: this.priorColored(val.priority)
+                }}
               >
                 <Body>
                   <Text>{val.title}</Text>
                   <Text note>{val.description}</Text>
                 </Body>
                 <Right>
-                  <Text note>{val.created_at}</Text>
+                  <Text note>{"2:50am"}</Text>
                 </Right>
               </CardItem>
             ))}
@@ -93,10 +93,7 @@ class Board extends React.Component {
 
 const mapStateToProps = state => ({
   tasks: state.tasksBoards.tasks,
-  loading: state.tasksBoards.tasksLoading
+  loading: state.tasksBoards.loadingTasks
 });
 
-export default connect(
-  mapStateToProps,
-  { fetchTasks }
-)(Board);
+export default connect(mapStateToProps)(Board);

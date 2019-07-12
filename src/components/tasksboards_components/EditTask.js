@@ -25,6 +25,9 @@ import { StyleSheet, Text } from "react-native";
 import { connect } from "react-redux";
 import { COLOR_SCHEMA } from "../../constants";
 import { fetchMembers } from "../../redux/actions/membershipsActions";
+import { createTask } from "../../redux/actions/tasksBoardsActions";
+import moment from "moment";
+
 class EditTask extends Component {
   state = {
     // avatarSource: { uri: "Choose a project picture" },
@@ -134,11 +137,18 @@ class EditTask extends Component {
     const params = {
       title: this.state.title,
       description: this.state.description,
-      due_date: this.state.due_date,
+      due_date: moment(this.state.chosenDate)
+        .format("YYYY-MM-DD")
+        .toString(),
       priority: this.state.priority,
       board: this.props.navigation.getParam("board", undefined),
-      task_to_user: this.state.assigned.map(k => ({ user: k.id }))
+      task_to_user: this.state.assigned.map(k => ({ user: k }))
     };
+
+    console.log(params.task_to_user);
+    console.log(this.state.chosenDate);
+
+    this.props.createTask(params);
   };
 
   updateTask = () => {};
@@ -332,5 +342,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchMembers }
+  { fetchMembers, createTask }
 )(EditTask);
